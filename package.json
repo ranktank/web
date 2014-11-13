@@ -1,7 +1,9 @@
 {
   "name": "priorityqueue",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.10.2"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
@@ -36,6 +38,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "start": "node index.js",
+    "test": "grunt test",
+    "postinstall": "bower install && grunt build"
   }
 }

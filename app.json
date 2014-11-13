@@ -1,0 +1,6 @@
+{
+  "name": "Rank Tank",
+  "description": "Collaboratively rank a list of items",
+  "repository": "https://github.com/samiconductor/ranktank-web",
+  "keywords": ["node", "express", "angular", "static"]
+}
