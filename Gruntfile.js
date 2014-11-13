@@ -373,7 +373,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
-        'imagemin',
+        //'imagemin',
         'svgmin'
       ]
     },
@@ -436,6 +436,10 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
+    'build'
+  ]);
+
+  grunt.registerTask('heroku', [
     'build'
   ]);
 };
