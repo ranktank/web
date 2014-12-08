@@ -4,31 +4,32 @@ require 'jquery-ui'
 
 Item = require './models/item'
 Items = require './models/items'
-ListView = require './views/list'
+ListContainerView = require './views/listContainer'
 
-items = new Items
 tank = new Items
+rank = new Items
 ranked = new Items
 
-new ListView
-  collection: items
-  sortable:
-    connectWith: '#tank .list'
-.$el.appendTo '#items'
-
-new ListView
+new ListContainerView
+  el: '#tank'
   collection: tank
-  sortable:
-    connectWith: '#items .list'
-.$el.appendTo '#tank'
+  title: 'Tank'
+  addItems: true
+  list:
+    sortable:
+      connectWith: '#rank .list'
 
-new ListView
+new ListContainerView
+  el: '#rank'
+  collection: rank
+  title: 'Rank'
+  list:
+    sortable:
+      connectWith: '#tank .list'
+
+new ListContainerView
+  el: '#ranked'
   collection: ranked
-.$el.appendTo '#ranked'
+  title: 'Ranked'
 
-items.add [
-  {id: 1, title: 'test'}
-  {id: 2, title: 'other'}
-  {id: 3, title: 'name'}
-  {id: 4, title: 'last'}
-]
+tank.fetch()

@@ -7,6 +7,9 @@ module.exports = Backbone.View.extend
   initialize: ->
     @render()
 
+    @model.on
+      change: @render.bind this
+
   events:
     moveitem: 'getModel'
 

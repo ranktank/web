@@ -1,6 +1,6 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({".":[function(require,module,exports){
 "use strict";
-var Backbone, Item, Items, ListView, items, ranked, tank;
+var Backbone, Item, Items, ListContainerView, rank, ranked, tank;
 
 Backbone = require('backbone');
 
@@ -12,51 +12,60 @@ Item = require('./models/item');
 
 Items = require('./models/items');
 
-ListView = require('./views/list');
-
-items = new Items;
+ListContainerView = require('./views/listContainer');
 
 tank = new Items;
 
+rank = new Items;
+
 ranked = new Items;
 
-new ListView({
-  collection: items,
-  sortable: {
-    connectWith: '#tank .list'
-  }
-}).$el.appendTo('#items');
-
-new ListView({
+new ListContainerView({
+  el: '#tank',
   collection: tank,
-  sortable: {
-    connectWith: '#items .list'
+  title: 'Tank',
+  addItems: true,
+  list: {
+    sortable: {
+      connectWith: '#rank .list'
+    }
   }
-}).$el.appendTo('#tank');
+});
 
-new ListView({
-  collection: ranked
-}).$el.appendTo('#ranked');
-
-items.add([
-  {
-    id: 1,
-    title: 'test'
-  }, {
-    id: 2,
-    title: 'other'
-  }, {
-    id: 3,
-    title: 'name'
-  }, {
-    id: 4,
-    title: 'last'
+new ListContainerView({
+  el: '#rank',
+  collection: rank,
+  title: 'Rank',
+  list: {
+    sortable: {
+      connectWith: '#tank .list'
+    }
   }
-]);
+});
+
+new ListContainerView({
+  el: '#ranked',
+  collection: ranked,
+  title: 'Ranked'
+});
+
+tank.fetch();
 
 
 
-},{"./models/item":2,"./models/items":3,"./views/list":6,"backbone":7,"jquery":9,"jquery-ui":8}],2:[function(require,module,exports){
+},{"./models/item":"/Users/ssimmons/Projects/ranktank/web/app/models/item.coffee","./models/items":"/Users/ssimmons/Projects/ranktank/web/app/models/items.coffee","./views/listContainer":"/Users/ssimmons/Projects/ranktank/web/app/views/listContainer.coffee","backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js","jquery":"/Users/ssimmons/Projects/ranktank/web/node_modules/jquery/dist/jquery.js","jquery-ui":"/Users/ssimmons/Projects/ranktank/web/node_modules/jquery-ui/jquery-ui.js"}],"/Users/ssimmons/Projects/ranktank/web/app/config/default.json":[function(require,module,exports){
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+  "userId": "user",
+  "api": "http://localhost:3000"
+}
+
+},{}],"/Users/ssimmons/Projects/ranktank/web/app/config/index.coffee":[function(require,module,exports){
+"use strict";
+module.exports = require('./default');
+
+
+
+},{"./default":"/Users/ssimmons/Projects/ranktank/web/app/config/default.json"}],"/Users/ssimmons/Projects/ranktank/web/app/models/item.coffee":[function(require,module,exports){
 "use strict";
 var Backbone;
 
@@ -66,21 +75,24 @@ module.exports = Backbone.Model.extend();
 
 
 
-},{"backbone":7}],3:[function(require,module,exports){
+},{"backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js"}],"/Users/ssimmons/Projects/ranktank/web/app/models/items.coffee":[function(require,module,exports){
 "use strict";
-var Backbone, Item;
+var Backbone, Item, config;
 
 Backbone = require('backbone');
 
 Item = require('./item');
 
+config = require('../config');
+
 module.exports = Backbone.Collection.extend({
+  url: "" + config.api + "/items",
   model: Item
 });
 
 
 
-},{"./item":2,"backbone":7}],4:[function(require,module,exports){
+},{"../config":"/Users/ssimmons/Projects/ranktank/web/app/config/index.coffee","./item":"/Users/ssimmons/Projects/ranktank/web/app/models/item.coffee","backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js"}],"/Users/ssimmons/Projects/ranktank/web/app/templates/index.coffee":[function(require,module,exports){
 "use strict";
 var fs;
 
@@ -89,12 +101,64 @@ var fs;
 'paths cannot contain runtime variables as it would require readFileSync to run\nin the browser which is not possible.';
 
 module.exports = {
-  item: "<span class=\"badge\">{{id}}</span>\n\n{{title}}\n"
+  item: "<span class=\"badge\">{{id}}</span>\n\n{{title}}\n",
+  addItem: "<form>\n\n  <div class=\"form-group\">\n    <label class=\"sr-only\" for=\"addItem{{id}}\">Item</label>\n    <input class=\"form-control\" id=\"addItem{{id}}\" type=\"text\" placeholder=\"Item\"/>\n  </div>\n\n  <div class=\"form-group\">\n    <button type=\"submit\" class=\"btn btn-primary\">Add Item</button>\n  </div>\n\n</form>\n",
+  listContainer: "<div class=\"panel panel-primary\">\n\n  <div class=\"panel-heading\">\n    <h3 class=\"panel-title\">{{title}}</h3>\n  </div>\n\n  <div class=\"panel-body list-container\"></div>\n\n</div>\n"
 };
 
 
 
-},{}],5:[function(require,module,exports){
+},{}],"/Users/ssimmons/Projects/ranktank/web/app/views/addItem.coffee":[function(require,module,exports){
+"use strict";
+var Backbone, Mustache, template, _;
+
+_ = require('underscore');
+
+Backbone = require('backbone');
+
+Mustache = require('mustache');
+
+template = require('../templates').addItem;
+
+module.exports = Backbone.View.extend({
+  initialize: function() {
+    return this.render();
+  },
+  events: function() {
+    return {
+      submit: 'submit'
+    };
+  },
+  template: function(view) {
+    return Mustache.render(template, view);
+  },
+  render: function() {
+    this.$el.html(this.template({
+      id: _.uniqueId()
+    }));
+    return this;
+  },
+  submit: function(event) {
+    var input, item, options, title;
+    event.preventDefault();
+    input = this.$el.find('input');
+    title = input.val();
+    input.val('');
+    if (title) {
+      item = {
+        title: title
+      };
+      options = {
+        wait: true
+      };
+      return this.collection.create(item, options);
+    }
+  }
+});
+
+
+
+},{"../templates":"/Users/ssimmons/Projects/ranktank/web/app/templates/index.coffee","backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js","mustache":"/Users/ssimmons/Projects/ranktank/web/node_modules/mustache/mustache.js","underscore":"/Users/ssimmons/Projects/ranktank/web/node_modules/underscore/underscore.js"}],"/Users/ssimmons/Projects/ranktank/web/app/views/item.coffee":[function(require,module,exports){
 "use strict";
 var Backbone, Mustache, template;
 
@@ -106,7 +170,10 @@ template = require('../templates').item;
 
 module.exports = Backbone.View.extend({
   initialize: function() {
-    return this.render();
+    this.render();
+    return this.model.on({
+      change: this.render.bind(this)
+    });
   },
   events: {
     moveitem: 'getModel'
@@ -125,7 +192,7 @@ module.exports = Backbone.View.extend({
 
 
 
-},{"../templates":4,"backbone":7,"mustache":10}],6:[function(require,module,exports){
+},{"../templates":"/Users/ssimmons/Projects/ranktank/web/app/templates/index.coffee","backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js","mustache":"/Users/ssimmons/Projects/ranktank/web/node_modules/mustache/mustache.js"}],"/Users/ssimmons/Projects/ranktank/web/app/views/list.coffee":[function(require,module,exports){
 "use strict";
 var Backbone, ItemView;
 
@@ -190,7 +257,52 @@ module.exports = Backbone.View.extend({
 
 
 
-},{"./item":5,"backbone":7}],7:[function(require,module,exports){
+},{"./item":"/Users/ssimmons/Projects/ranktank/web/app/views/item.coffee","backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js"}],"/Users/ssimmons/Projects/ranktank/web/app/views/listContainer.coffee":[function(require,module,exports){
+"use strict";
+var AddItemView, Backbone, ListView, Mustache, template, _;
+
+_ = require('underscore');
+
+Backbone = require('backbone');
+
+Mustache = require('mustache');
+
+AddItemView = require('./addItem');
+
+ListView = require('./list');
+
+template = require('../templates').listContainer;
+
+module.exports = Backbone.View.extend({
+  initialize: function(options) {
+    var list, listOptions;
+    if (options == null) {
+      options = {};
+    }
+    this.render(options);
+    list = this.$el.find('.list-container');
+    if (options.addItems) {
+      new AddItemView({
+        collection: this.collection
+      }).$el.appendTo(list);
+    }
+    listOptions = _.extend({
+      collection: this.collection
+    }, options.list);
+    console.log(listOptions);
+    return new ListView(listOptions).$el.appendTo(list);
+  },
+  template: function(view) {
+    return Mustache.render(template, view);
+  },
+  render: function(options) {
+    return this.$el.html(this.template(options));
+  }
+});
+
+
+
+},{"../templates":"/Users/ssimmons/Projects/ranktank/web/app/templates/index.coffee","./addItem":"/Users/ssimmons/Projects/ranktank/web/app/views/addItem.coffee","./list":"/Users/ssimmons/Projects/ranktank/web/app/views/list.coffee","backbone":"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js","mustache":"/Users/ssimmons/Projects/ranktank/web/node_modules/mustache/mustache.js","underscore":"/Users/ssimmons/Projects/ranktank/web/node_modules/underscore/underscore.js"}],"/Users/ssimmons/Projects/ranktank/web/node_modules/backbone/backbone.js":[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1800,7 +1912,7 @@ module.exports = Backbone.View.extend({
 
 }));
 
-},{"underscore":11}],8:[function(require,module,exports){
+},{"underscore":"/Users/ssimmons/Projects/ranktank/web/node_modules/underscore/underscore.js"}],"/Users/ssimmons/Projects/ranktank/web/node_modules/jquery-ui/jquery-ui.js":[function(require,module,exports){
 var jQuery = require('jquery');
 
 /*! jQuery UI - v1.10.3 - 2013-05-03
@@ -16807,7 +16919,7 @@ $.widget( "ui.tooltip", {
 
 }( jQuery ) );
 
-},{"jquery":9}],9:[function(require,module,exports){
+},{"jquery":"/Users/ssimmons/Projects/ranktank/web/node_modules/jquery/dist/jquery.js"}],"/Users/ssimmons/Projects/ranktank/web/node_modules/jquery/dist/jquery.js":[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -25999,7 +26111,7 @@ return jQuery;
 
 }));
 
-},{}],10:[function(require,module,exports){
+},{}],"/Users/ssimmons/Projects/ranktank/web/node_modules/mustache/mustache.js":[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -26571,7 +26683,7 @@ return jQuery;
 
 }));
 
-},{}],11:[function(require,module,exports){
+},{}],"/Users/ssimmons/Projects/ranktank/web/node_modules/underscore/underscore.js":[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -27988,4 +28100,4 @@ return jQuery;
   }
 }.call(this));
 
-},{}]},{},[1]);
+},{}]},{},["."]);
