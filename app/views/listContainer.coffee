@@ -19,8 +19,6 @@ module.exports = Backbone.View.extend
 
     listOptions = _.extend collection: @collection, options.list
 
-    console.log listOptions
-
     new ListView listOptions
     .$el.appendTo list
 
