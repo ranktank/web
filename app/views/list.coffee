@@ -7,7 +7,8 @@ module.exports = Backbone.View.extend
   className: 'list list-group'
 
   initialize: (options = {}) ->
-    @idPrefix = 'item-'
+
+    @idPrefix = "#{options.itemId || 'item'}-"
 
     @collection.on
       add: @addItem.bind this
@@ -47,4 +48,7 @@ module.exports = Backbone.View.extend
     ui.item.trigger 'moveitem', at: ui.item.index()
 
   addItemModel: (event, at) ->
-    @collection.add event.result, at
+    @collection
+      .add(event.result, at)
+      .sync 'create', @collection
+

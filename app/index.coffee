@@ -2,6 +2,8 @@ Backbone = require 'backbone'
 Backbone.$ = require 'jquery'
 require 'jquery-ui'
 
+config = require './config'
+
 Item = require './models/item'
 Items = require './models/items'
 ListContainerView = require './views/listContainer'
@@ -9,6 +11,9 @@ ListContainerView = require './views/listContainer'
 tank = new Items
 rank = new Items
 ranked = new Items
+
+rank.url = "#{config.api}/ranks/user/#{config.userId}"
+ranked.url = "#{config.api}/rankedItems"
 
 new ListContainerView
   el: '#tank'
@@ -24,6 +29,7 @@ new ListContainerView
   collection: rank
   title: 'Rank'
   list:
+    itemId: 'rank'
     sortable:
       connectWith: '#tank .list'
 
@@ -31,5 +37,7 @@ new ListContainerView
   el: '#ranked'
   collection: ranked
   title: 'Ranked'
+  list:
+    itemId: 'ranked'
 
-tank.fetch()
+items.fetch() for items in [tank, rank, ranked]
